@@ -1,0 +1,6 @@
+@cssapapi_HostAddress = http://localhost:5086
+
+GET {{cssapapi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
