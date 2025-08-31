@@ -1,0 +1,6 @@
+@cssaoapi_HostAddress = http://localhost:5086
+
+GET {{cssaoapi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

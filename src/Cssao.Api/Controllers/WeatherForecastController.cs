@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Mvc;
 
-namespace cssapapi.Controllers
+namespace cssaoapi.Controllers
 {
     [ApiController]
     [Route("[controller]")]

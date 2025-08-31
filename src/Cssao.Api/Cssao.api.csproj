@@ -1,0 +1,31 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UserSecretsId>690332c3-7e0f-4634-af1e-663e1cf953d6</UserSecretsId>
+    <DockerDefaultTargetOS>Linux</DockerDefaultTargetOS>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
+    <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.17">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <!-- MySQL 数据库提供程序 --><!--
+    <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.3" />
+
+    --><!-- 其他必要包 -->
+      <!--
+    <PackageReference Include="Microsoft.EntityFrameworkCore" Version="8.0.17" />-->
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Cssao.Application\Cssao.Application.csproj" />
+    <ProjectReference Include="..\Cssao.Infrastructure\Cssao.Infrastructure.csproj" />
+  </ItemGroup>
+
+</Project>

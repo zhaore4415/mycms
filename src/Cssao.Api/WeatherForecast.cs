@@ -1,4 +1,4 @@
-namespace cssapapi
+namespace cssaoapi
 {
     public class WeatherForecast
     {
