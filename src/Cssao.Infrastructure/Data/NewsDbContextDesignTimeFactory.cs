@@ -9,9 +9,9 @@ using System.Threading.Tasks;
 
 namespace Cssao.Infrastructure.Data
 {
-    public class NewsDbContextDesignTimeFactory : IDesignTimeDbContextFactory<NewsDbContext>
+    public class NewsDbContextDesignTimeFactory : IDesignTimeDbContextFactory<AppDbContext>
     {
-        public NewsDbContext CreateDbContext(string[] args)
+        public AppDbContext CreateDbContext(string[] args)
         {
             // 获取 Cssao.api 项目目录（即包含 appsettings.json 的目录）
             var apiProjectPath = Path.Combine(
@@ -24,7 +24,7 @@ namespace Cssao.Infrastructure.Data
                 .AddJsonFile("appsettings.json")
                 .Build();
 
-            var optionsBuilder = new DbContextOptionsBuilder<NewsDbContext>();
+            var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
             var connectionString = configuration.GetConnectionString("DefaultConnection");
 
             optionsBuilder.UseMySql(
@@ -33,7 +33,7 @@ namespace Cssao.Infrastructure.Data
                 options => options.MigrationsAssembly("Cssao.Infrastructure")
             );
 
-            return new NewsDbContext(optionsBuilder.Options);
+            return new AppDbContext(optionsBuilder.Options);
         }
     }
 }

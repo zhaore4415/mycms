@@ -16,9 +16,9 @@ namespace Cssao.Infrastructure.Repositories
     // EF Core实现
     public class NewsRepository : INewsRepository
     {
-        private readonly NewsDbContext _context;
+        private readonly AppDbContext _context;
 
-        public NewsRepository(NewsDbContext context) => _context = context;
+        public NewsRepository(AppDbContext context) => _context = context;
 
         public async Task AddAsync(News news)
         {

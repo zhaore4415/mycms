@@ -10,9 +10,9 @@ using System.Threading.Tasks;
 namespace Cssao.Infrastructure.Data
 {
     // Infrastructure/Data/NewsDbContext.cs
-    public class NewsDbContext : DbContext
+    public class AppDbContext : DbContext
     {
-        public NewsDbContext(DbContextOptions<NewsDbContext> options)
+        public AppDbContext(DbContextOptions<AppDbContext> options)
             : base(options)
         {
         }
@@ -20,14 +20,22 @@ namespace Cssao.Infrastructure.Data
         public DbSet<News> News { get; set; }  // 实体映射
         public DbSet<Category> Categories { get; set; }
         public DbSet<Tag> Tags { get; set; }
+        public DbSet<AdminUser> AdminUsers { get; set; }
 
         #region Code First Migration（代码优先迁移）
-        //# 切换到 Infrastructure 项目目录
-        //        cd D:\南禾网站建设\mywebcode\cssaoNew\cssapapi\src\Cssao.Infrastructure
+        //# 1. 进入启动项目目录
+        //        cd D:\南禾网站建设\mywebcode\cssaoNew\cssapapi\src\Cssao.Api
 
-        //# 再运行迁移命令
-        //        dotnet ef migrations add InitialCreate --startup-project../Cssao.Api/Cssao.Api.csproj
-        //        dotnet ef database update --startup-project../Cssao.Api/Cssao.Api.csproj 
+        //# 2. 生成迁移（Migration）
+        //        dotnet ef migrations add CreateAdminUserTable ^
+        //  --project../Cssao.Infrastructure/Cssao.Infrastructure.csproj ^
+        //  --startup-project./Cssao.Api.csproj ^
+        //  --output-dir Migrations
+
+        //# 3. 更新数据库
+        //dotnet ef database update ^
+        //  --project../Cssao.Infrastructure/Cssao.Infrastructure.csproj ^
+        //  --startup-project./Cssao.Api.csproj
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

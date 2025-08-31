@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 namespace Cssao.Infrastructure.Migrations
 {
-    [DbContext(typeof(NewsDbContext))]
+    [DbContext(typeof(AppDbContext))]
     [Migration("20250831021603_InitialCreate")]
     partial class InitialCreate
     {

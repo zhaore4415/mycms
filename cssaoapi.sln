@@ -23,7 +23,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cssao.Application.Tests", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cssao.Infrastructure.Tests", "tests\Cssao.Infrastructure.Tests\Cssao.Infrastructure.Tests.csproj", "{245D3646-DA8E-47D5-9B61-580AABE45D78}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cssao.Interface", "src\Cssao.Interface\Cssao.Interface.csproj", "{AFE08A9C-31A8-4086-8A91-3B57A6BF8BCA}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cssao.Admin.Client", "src\Cssao.Admin.Client\Cssao.Admin.Client.csproj", "{D8257B7E-84BC-4776-8451-40DE359A7A4E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -63,10 +63,10 @@ Global
 		{245D3646-DA8E-47D5-9B61-580AABE45D78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{245D3646-DA8E-47D5-9B61-580AABE45D78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{245D3646-DA8E-47D5-9B61-580AABE45D78}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AFE08A9C-31A8-4086-8A91-3B57A6BF8BCA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AFE08A9C-31A8-4086-8A91-3B57A6BF8BCA}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AFE08A9C-31A8-4086-8A91-3B57A6BF8BCA}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AFE08A9C-31A8-4086-8A91-3B57A6BF8BCA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{D8257B7E-84BC-4776-8451-40DE359A7A4E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{D8257B7E-84BC-4776-8451-40DE359A7A4E}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{D8257B7E-84BC-4776-8451-40DE359A7A4E}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{D8257B7E-84BC-4776-8451-40DE359A7A4E}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -80,6 +80,6 @@ Global
 		{F724419C-E973-4C42-AD72-184BD75736AF} = {55DEC2E8-26D0-4CB8-ABAA-A3F6F29BBF12}
 		{7C9ACEF4-B33E-46AD-BCC5-B8892D32D987} = {5FEF8EF1-676A-4DAC-AA14-CCA48C2E93B3}
 		{245D3646-DA8E-47D5-9B61-580AABE45D78} = {5FEF8EF1-676A-4DAC-AA14-CCA48C2E93B3}
-		{AFE08A9C-31A8-4086-8A91-3B57A6BF8BCA} = {55DEC2E8-26D0-4CB8-ABAA-A3F6F29BBF12}
+		{D8257B7E-84BC-4776-8451-40DE359A7A4E} = {55DEC2E8-26D0-4CB8-ABAA-A3F6F29BBF12}
 	EndGlobalSection
 EndGlobal

@@ -9,12 +9,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="BCrypt.Net-Next" Version="4.0.3" />
     <PackageReference Include="Microsoft.VisualStudio.Azure.Containers.Tools.Targets" Version="1.21.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="8.0.17">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="8.14.0" />
     <!-- MySQL 数据库提供程序 --><!--
     <PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="8.0.3" />
 
@@ -26,6 +28,8 @@
   <ItemGroup>
     <ProjectReference Include="..\Cssao.Application\Cssao.Application.csproj" />
     <ProjectReference Include="..\Cssao.Infrastructure\Cssao.Infrastructure.csproj" />
+    <ProjectReference Include="..\Cssao.Shared\Cssao.Shared.csproj" />
+    <!--<Compile Include="Controllers\Admin\AuthController.cs" />-->
   </ItemGroup>
 
 </Project>
