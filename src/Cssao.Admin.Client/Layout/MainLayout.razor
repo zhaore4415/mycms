@@ -1,4 +1,5 @@
 ﻿@inherits LayoutComponentBase
+@using Cssao.Admin.Client.Services
 <div class="page">
     <div class="sidebar">
         <NavMenu />
@@ -7,6 +8,9 @@
     <main>
         <div class="top-row px-4">
             <a href="https://learn.microsoft.com/aspnet/core/" target="_blank">About</a>
+            <a class="btn btn-danger" @onclick="HandleLogout">
+                <i class="bi bi-box-arrow-right"></i> 退出登录
+            </a>
         </div>
 
         <article class="content px-4">
@@ -14,3 +18,15 @@
         </article>
     </main>
 </div>
+
+
+@code {
+    // 🔴 注入你的 AuthService
+    [Inject]
+    public AuthService _authService { get; set; } = null!;
+    private async Task HandleLogout()
+    {
+        await _authService.LogoutAsync();
+        // 页面会自动跳转
+    }
+}

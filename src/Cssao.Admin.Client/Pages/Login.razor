@@ -56,7 +56,7 @@
         // 如果已登录，跳转到首页
         if (AuthService.IsAuthenticated)
         {
-            Navigation.NavigateTo("/admin/news");
+            Navigation.NavigateTo("/");
         }
         else
         {
@@ -64,7 +64,7 @@
             await AuthService.TryRefreshAuthStateAsync();
             if (AuthService.IsAuthenticated)
             {
-                Navigation.NavigateTo("/admin/news");
+                Navigation.NavigateTo("/");
             }
         }
     }
@@ -81,7 +81,7 @@
             var success = await AuthService.LoginAsync(loginModel.Username, loginModel.Password);
             if (success)
             {
-                Navigation.NavigateTo("/admin/news", forceLoad: false);
+                Navigation.NavigateTo("/", forceLoad: false);
             }
             else
             {

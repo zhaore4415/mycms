@@ -1,5 +1,6 @@
 ﻿
 using Cssao.api.Configuration;
+using Cssao.api.Middleware;
 using Cssao.Application.Services;
 using Cssao.Domain.IRepositories;
 using Cssao.Infrastructure.Data;
@@ -33,7 +34,8 @@ namespace cssaoapi
             builder.Services.AddDbContext<AppDbContext>(options =>
                 options.UseMySql(
                     builder.Configuration.GetConnectionString("DefaultConnection"),
-                    ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection"))
+                    ServerVersion.AutoDetect(builder.Configuration.GetConnectionString("DefaultConnection")),
+                    b => b.MigrationsAssembly("Cssao.Infrastructure") // ✅ 关键：指定迁移项目
                 )
             );
 
@@ -87,7 +89,8 @@ namespace cssaoapi
                 }
                 return next();
             });
-
+            // 🔴 在 UseAuthentication 之后，MapControllers 之前添加
+            app.UseMiddleware<BlacklistedTokenMiddleware>();
             app.MapControllers();
 
             // 执行数据库迁移

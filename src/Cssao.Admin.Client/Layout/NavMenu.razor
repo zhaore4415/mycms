@@ -6,6 +6,7 @@
         </button>
     </div>
 </div>
+<!-- ✅ 只有登录用户才显示这些菜单 -->
 
 <div class="@NavMenuCssClass nav-scrollable" @onclick="ToggleNavMenu">
     <nav class="nav flex-column">
@@ -26,6 +27,7 @@
         </div>
     </nav>
 </div>
+
 
 @code {
     private bool collapseNavMenu = true;

@@ -1,11 +1,13 @@
 ﻿using Cssao.Domain.Entities;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore.Storage;
 using Microsoft.Extensions.Configuration;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace Cssao.Infrastructure.Data
 {
@@ -17,6 +19,9 @@ namespace Cssao.Infrastructure.Data
         {
         }
 
+        public DbSet<BlacklistedToken> BlacklistedTokens { get; set; }
+
+
         public DbSet<News> News { get; set; }  // 实体映射
         public DbSet<Category> Categories { get; set; }
         public DbSet<Tag> Tags { get; set; }
@@ -27,15 +32,10 @@ namespace Cssao.Infrastructure.Data
         //        cd D:\南禾网站建设\mywebcode\cssaoNew\cssapapi\src\Cssao.Api
 
         //# 2. 生成迁移（Migration）
-        //        dotnet ef migrations add CreateAdminUserTable ^
-        //  --project../Cssao.Infrastructure/Cssao.Infrastructure.csproj ^
-        //  --startup-project./Cssao.Api.csproj ^
-        //  --output-dir Migrations
+        //dotnet ef migrations add CreateBlacklistedTokenTable --project ../Cssao.Infrastructure/Cssao.Infrastructure.csproj --startup-project ./Cssao.Api.csproj --output-dir Migrations
 
         //# 3. 更新数据库
-        //dotnet ef database update ^
-        //  --project../Cssao.Infrastructure/Cssao.Infrastructure.csproj ^
-        //  --startup-project./Cssao.Api.csproj
+        //dotnet ef database update --project ../Cssao.Infrastructure/Cssao.Infrastructure.csproj --startup-project./Cssao.Api.csproj
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

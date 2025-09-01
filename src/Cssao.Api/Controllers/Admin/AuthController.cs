@@ -1,4 +1,5 @@
 ﻿using Cssao.api.Configuration;
+using Cssao.Domain.Entities;
 using Cssao.Infrastructure.Data;
 using Cssao.Shared.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -113,6 +114,51 @@ namespace Cssao.api.Controllers.Admin
                 signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+
+        [HttpPost("logout")]
+        public async Task<IActionResult> Logout()
+        {
+            // 1. 获取当前请求的 JWT Token
+            var authHeader = Request.Headers.Authorization.ToString();
+            if (string.IsNullOrEmpty(authHeader) || !authHeader.StartsWith("Bearer "))
+            {
+                return Unauthorized(new { message = "未授权" });
+            }
+
+            var token = authHeader["Bearer ".Length..].Trim();
+
+            // 2. 解析 Token 获取过期时间（可选：验证签名）
+            JwtSecurityToken jwtToken;
+            try
+            {
+                var handler = new JwtSecurityTokenHandler();
+                jwtToken = handler.ReadJwtToken(token);
+            }
+            catch (Exception)
+            {
+                return BadRequest(new { message = "无效的 Token 格式" });
+            }
+
+            // 3. 检查 Token 是否已过期
+            if (jwtToken.ValidTo < DateTime.UtcNow)
+            {
+                // 已过期，无需加入黑名单
+                return Ok(new { message = "登出成功" });
+            }
+
+            // 4. 将 Token 加入黑名单
+            var blacklistedToken = new BlacklistedToken
+            {
+                Token = token,
+                ExpiredAt = jwtToken.ValidTo // 用于后续清理
+            };
+
+            _context.BlacklistedTokens.Add(blacklistedToken);
+            await _context.SaveChangesAsync();
+
+            return Ok(new { message = "登出成功" });
         }
     }
 }
