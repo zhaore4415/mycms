@@ -20,7 +20,12 @@ builder.Services.AddScoped(sp => new HttpClient
 
 builder.Services.AddScoped<AuthService>();
 
-// ✅ 4. 注册自定义认证状态提供者（关键！）
-builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
+//// ✅ 4. 注册自定义认证状态提供者（关键！）
+//builder.Services.AddScoped<AuthenticationStateProvider, CustomAuthStateProvider>();
+
+// ✅ 正确注册 PersistentAuthenticationStateProvider（使用工厂）
+builder.Services.AddScoped<PersistentAuthenticationStateProvider>();
+builder.Services.AddScoped<AuthenticationStateProvider>(sp =>
+    sp.GetRequiredService<PersistentAuthenticationStateProvider>());
 
 await builder.Build().RunAsync();

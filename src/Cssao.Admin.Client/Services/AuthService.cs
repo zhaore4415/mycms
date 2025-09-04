@@ -10,16 +10,18 @@ namespace Cssao.Admin.Client.Services
         private readonly HttpClient _http;
         private readonly IJSRuntime _js;
         private readonly NavigationManager _navigation;
-        // private readonly AuthenticationStateProvider _authStateProvider;
-        public string? Username { get; private set; }
+        private readonly PersistentAuthenticationStateProvider  _authStateProvider;
 
-        public bool IsAuthenticated => !string.IsNullOrEmpty(Username);
-
-        public AuthService(HttpClient http, IJSRuntime js, NavigationManager navigation)
+        public AuthService(
+            HttpClient http,
+            IJSRuntime js,
+            NavigationManager navigation,
+            PersistentAuthenticationStateProvider  authStateProvider)
         {
             _http = http;
             _js = js;
             _navigation = navigation;
+            _authStateProvider = authStateProvider;
         }
 
         public async Task<bool> LoginAsync(string username, string password)
@@ -39,23 +41,23 @@ namespace Cssao.Admin.Client.Services
                     var result = await response.Content.ReadFromJsonAsync<LoginResponseDto>();
                     if (result != null)
                     {
-                        // 保存 Token 和用户名
+                        // 保存 Token
                         await _js.InvokeVoidAsync("localStorage.setItem", "authToken", result.Token);
-                        await _js.InvokeVoidAsync("localStorage.setItem", "username", result.Username);
 
+                        // 设置 HttpClient 认证头（可选，推荐用 AuthorizationMessageHandler）
                         _http.DefaultRequestHeaders.Authorization =
                             new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", result.Token);
 
-                        Username = result.Username;
+                        // ✅ 通知授权状态变化
+                        _authStateProvider.NotifyUserLoggedIn(result.Token);
+
                         return true;
                     }
                 }
             }
             catch (Exception ex)
             {
-                // 网络错误等
-                // 日志记录
-                Console.WriteLine(ex.Message);
+                Console.WriteLine($"登录失败: {ex.Message}");
             }
 
             return false;
@@ -65,52 +67,27 @@ namespace Cssao.Admin.Client.Services
         {
             try
             {
-                // 可选：通知后端登出（如使用 refresh token 或黑名单）
-                var httpResponse = await _http.PostAsync("api/admin/auth/logout", null);
+                await _http.PostAsync("api/admin/auth/logout", null);
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine($"登出API调用失败: {ex.Message}");
-                // 继续登出流程
-            }
+            catch { /* 忽略 */ }
 
             try
             {
                 await _js.InvokeVoidAsync("localStorage.removeItem", "authToken");
-                await _js.InvokeVoidAsync("localStorage.removeItem", "username");
             }
             catch (JSException jsEx)
             {
-                Console.WriteLine($"JavaScript错误: {jsEx.Message}");
+                Console.WriteLine($"JS错误: {jsEx.Message}");
             }
 
-            // 清除 HttpClient 认证头
+            // 清除认证头
             _http.DefaultRequestHeaders.Authorization = null;
 
-            // 更新本地状态
-            Username = null;
+            // 通知登出
+            _authStateProvider.NotifyUserLoggedOut();
 
-            // 可选：通知身份验证状态变化
-            // await _authStateProvider.LogoutAsync();
-
-            // 跳转到首页或登录页
-            _navigation.NavigateTo("/login", new NavigationOptions { ForceLoad = false });//ForceLoad = true-强制刷新页面
-        }
-
-        public async Task<bool> TryRefreshAuthStateAsync()
-        {
-            var token = await _js.InvokeAsync<string>("localStorage.getItem", "authToken");
-            var username = await _js.InvokeAsync<string>("localStorage.getItem", "username");
-
-            if (!string.IsNullOrEmpty(token) && !string.IsNullOrEmpty(username))
-            {
-                _http.DefaultRequestHeaders.Authorization =
-                    new System.Net.Http.Headers.AuthenticationHeaderValue("Bearer", token);
-                Username = username;
-                return true;
-            }
-
-            return false;
+            // 跳转
+            _navigation.NavigateTo("/login");
         }
     }
 }
