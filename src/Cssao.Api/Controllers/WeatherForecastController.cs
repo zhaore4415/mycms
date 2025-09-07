@@ -1,6 +1,7 @@
+using Cssao.Api.Cssao.api;
 using Microsoft.AspNetCore.Mvc;
 
-namespace cssaoapi.Controllers
+namespace Cssao.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]

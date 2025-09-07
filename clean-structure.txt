@@ -1,0 +1,55 @@
+﻿cssapapi/
+鈹溾攢鈹€ .config/
+鈹溾攢鈹€ .git/
+鈹?  鈹溾攢鈹€ hooks/
+鈹?  鈹溾攢鈹€ info/
+鈹?  鈹斺攢鈹€ refs/
+鈹?      鈹溾攢鈹€ heads/
+鈹?      鈹溾攢鈹€ remotes/
+鈹?      鈹?  鈹斺攢鈹€ origin/
+鈹?      鈹斺攢鈹€ tags/
+鈹溾攢鈹€ .github/
+鈹?  鈹斺攢鈹€ workflows/
+鈹溾攢鈹€ src/
+鈹?  鈹溾攢鈹€ Cssao.Admin.Client/
+鈹?  鈹?  鈹溾攢鈹€ Layout/
+鈹?  鈹?  鈹溾攢鈹€ Pages/
+鈹?  鈹?  鈹溾攢鈹€ Properties/
+鈹?  鈹?  鈹溾攢鈹€ Services/
+鈹?  鈹?  鈹斺攢鈹€ wwwroot/
+鈹?  鈹?      鈹溾攢鈹€ css/
+鈹?  鈹?      鈹溾攢鈹€ lib/
+鈹?  鈹?      鈹?  鈹斺攢鈹€ bootstrap/
+鈹?  鈹?      鈹?      鈹斺攢鈹€ dist/
+鈹?  鈹?      鈹?          鈹溾攢鈹€ css/
+鈹?  鈹?      鈹?          鈹斺攢鈹€ js/
+鈹?  鈹?      鈹斺攢鈹€ sample-data/
+鈹?  鈹溾攢鈹€ Cssao.Api/
+鈹?  鈹?  鈹溾攢鈹€ Configuration/
+鈹?  鈹?  鈹溾攢鈹€ Controllers/
+鈹?  鈹?  鈹?  鈹斺攢鈹€ Admin/
+鈹?  鈹?  鈹溾攢鈹€ Middleware/
+鈹?  鈹?  鈹斺攢鈹€ Properties/
+鈹?  鈹溾攢鈹€ Cssao.Application/
+鈹?  鈹?  鈹溾攢鈹€ DTOs/
+鈹?  鈹?  鈹溾攢鈹€ Features/
+鈹?  鈹?  鈹?  鈹斺攢鈹€ News/
+鈹?  鈹?  鈹?      鈹溾攢鈹€ Commands/
+鈹?  鈹?  鈹?      鈹斺攢鈹€ Queries/
+鈹?  鈹?  鈹溾攢鈹€ Interfaces/
+鈹?  鈹?  鈹斺攢鈹€ Services/
+鈹?  鈹溾攢鈹€ Cssao.Domain/
+鈹?  鈹?  鈹溾攢鈹€ Aggregates/
+鈹?  鈹?  鈹溾攢鈹€ Entities/
+鈹?  鈹?  鈹溾攢鈹€ IRepositories/
+鈹?  鈹?  鈹斺攢鈹€ ValueObjects/
+鈹?  鈹溾攢鈹€ Cssao.Infrastructure/
+鈹?  鈹?  鈹溾攢鈹€ Data/
+鈹?  鈹?  鈹溾攢鈹€ Migrations/
+鈹?  鈹?  鈹斺攢鈹€ Repositories/
+鈹?  鈹斺攢鈹€ Cssao.Shared/
+鈹?      鈹斺攢鈹€ Models/
+鈹斺攢鈹€ tests/
+    鈹溾攢鈹€ Cssao.Application.Tests/
+    鈹溾攢鈹€ Cssao.Domain.Tests/
+    鈹斺攢鈹€ Cssao.Infrastructure.Tests/

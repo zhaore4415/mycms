@@ -20,7 +20,7 @@ namespace Cssao.Infrastructure.Repositories
 
         public NewsRepository(AppDbContext context) => _context = context;
 
-        public async Task AddAsync(News news)
+        public async Task AddAsync(News news, CancellationToken ct)
         {
             if (news == null)
                 throw new ArgumentNullException(nameof(news));
@@ -32,7 +32,7 @@ namespace Cssao.Infrastructure.Repositories
         /// <summary>
         /// 更新新闻
         /// </summary>
-        public async Task UpdateAsync(News news)
+        public async Task UpdateAsync(News news, CancellationToken ct)
         {
             if (news == null)
                 throw new ArgumentNullException(nameof(news));
@@ -57,7 +57,7 @@ namespace Cssao.Infrastructure.Repositories
         /// <summary>
         /// 根据分类ID分页查询新闻列表（仅已发布）
         /// </summary>
-        public async Task<IPagedList<News>> GetByCategoryAsync(int categoryId, int pageIndex, int pageSize)
+        public async Task<IPagedList<News>> GetByCategoryAsync(int categoryId, int pageIndex, int pageSize, CancellationToken ct)
         {
             var query = _context.News
                 .Include(n => n.Category)           // 包含分类信息
@@ -71,7 +71,7 @@ namespace Cssao.Infrastructure.Repositories
         /// <summary>
         /// 根据ID查询新闻（包含评论和标签）
         /// </summary>
-        public async Task<News?> GetByIdWithCommentsAsync(int id)
+        public async Task<News?> GetByIdWithCommentsAsync(int id,CancellationToken ct)
         {
             return await _context.News
                 //.Include(n => n.Comments)

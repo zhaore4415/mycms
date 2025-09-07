@@ -10,10 +10,10 @@ namespace Cssao.Domain.IRepositories
 {
     public interface INewsRepository
     {
-        Task<IPagedList<News>> GetByCategoryAsync(int categoryId, int pageIndex, int pageSize);
-        Task<News> GetByIdWithCommentsAsync(int id);
-        Task AddAsync(News news);
-        Task UpdateAsync(News news);
+        Task<IPagedList<News>> GetByCategoryAsync(int categoryId, int pageIndex, int pageSize, CancellationToken ct);
+        Task<News> GetByIdWithCommentsAsync(int id, CancellationToken ct);
+        Task AddAsync(News news, CancellationToken ct);
+        Task UpdateAsync(News news, CancellationToken ct);
     }
 
 }

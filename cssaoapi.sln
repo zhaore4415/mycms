@@ -4,12 +4,15 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 VisualStudioVersion = 17.12.35707.178
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{55DEC2E8-26D0-4CB8-ABAA-A3F6F29BBF12}"
+	ProjectSection(SolutionItems) = preProject
+		..\..\..\..\goproject\src\gocode\web04\README.md = ..\..\..\..\goproject\src\gocode\web04\README.md
+	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{5FEF8EF1-676A-4DAC-AA14-CCA48C2E93B3}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cssao.Domain.Tests", "tests\Cssao.Domain.Tests\Cssao.Domain.Tests.csproj", "{926EAE82-3D52-4C00-9313-C0BF56EA6846}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cssao.api", "src\Cssao.Api\Cssao.api.csproj", "{2EE1E2A4-883E-4C44-A2C6-6DF53455A8CF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cssao.Api", "src\Cssao.Api\Cssao.Api.csproj", "{2EE1E2A4-883E-4C44-A2C6-6DF53455A8CF}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Cssao.Application", "src\Cssao.Application\Cssao.Application.csproj", "{AFA066C4-2C9B-44B3-B1FC-8259DE23F842}"
 EndProject

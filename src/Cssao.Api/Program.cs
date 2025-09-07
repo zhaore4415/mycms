@@ -1,15 +1,13 @@
 ﻿
 using Cssao.api.Configuration;
 using Cssao.api.Middleware;
-using Cssao.Application.Services;
+using Cssao.Application.Features.News.Queries;
 using Cssao.Domain.IRepositories;
 using Cssao.Infrastructure.Data;
 using Cssao.Infrastructure.Repositories;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using Microsoft.Extensions.Hosting;
 
-namespace cssaoapi
+namespace Cssao.Api.Cssao.api
 {
     public class Program
     {
@@ -26,8 +24,12 @@ namespace cssaoapi
             // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen();
-            builder.Services.AddScoped<NewsService>();  // 注册应用服务
-                                                        // Cssao.Web/Program.cs
+            // Program.cs (.NET 6+)
+            builder.Services.AddMediatR(cfg =>
+                cfg.RegisterServicesFromAssembly(typeof(GetNewsDetailQuery).Assembly));
+
+            //builder.Services.AddScoped<NewsService>();  // 注册应用服务
+            // Cssao.Web/Program.cs
             builder.Services.AddScoped<INewsRepository, NewsRepository>();
 
             // 注册 DbContext，使用 builder.Configuration 获取连接字符串
