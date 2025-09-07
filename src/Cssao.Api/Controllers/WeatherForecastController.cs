@@ -5,6 +5,7 @@ namespace Cssao.Api.Controllers
 {
     [ApiController]
     [Route("[controller]")]
+    [ApiExplorerSettings(GroupName = "public")]
     public class WeatherForecastController : ControllerBase
     {
         private static readonly string[] Summaries = new[]

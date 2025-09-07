@@ -14,6 +14,7 @@ namespace Cssao.api.Controllers.Admin
 {
     [ApiController]
     [Route("api/admin/auth")]
+    [ApiExplorerSettings(GroupName = "backend")]
     public class AuthController : ControllerBase
     {
         private readonly AppDbContext _context;

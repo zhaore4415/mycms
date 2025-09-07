@@ -12,6 +12,7 @@ using Cssao.Infrastructure.AutoMapper;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using Microsoft.OpenApi.Models;
 
 namespace Cssao.Api.Cssao.api
 {
@@ -31,11 +32,27 @@ namespace Cssao.Api.Cssao.api
             builder.Services.AddEndpointsApiExplorer();
             builder.Services.AddSwaggerGen(options =>
             {
-                options.SwaggerDoc("v1", new Microsoft.OpenApi.Models.OpenApiInfo
+                // 🔹 文档 1: Backend API（后台管理）
+                options.SwaggerDoc("backend", new Microsoft.OpenApi.Models.OpenApiInfo
                 {
-                    Title = "Cssao API",
+                    Title = "Cssao 后台管理 API",
                     Version = "v1",
-                    Description = "后台管理 API"
+                    Description = "管理员使用的后台接口"
+                });
+
+                // 🔹 文档 2: Frontend API（前端内容接口）
+                options.SwaggerDoc("frontend", new OpenApiInfo
+                {
+                    Title = "Cssao 前端内容 API",
+                    Version = "v1",
+                    Description = "普通用户/访客访问的新闻等接口"
+                });
+
+                // 🔹 文档 3: Public API（可选：公开接口，如天气）
+                options.SwaggerDoc("public", new OpenApiInfo
+                {
+                    Title = "Cssao 公共 API",
+                    Version = "v1"
                 });
 
                 // ✅ 添加 JWT 认证支持
@@ -178,10 +195,18 @@ namespace Cssao.Api.Cssao.api
             if (app.Environment.IsDevelopment())
             {
                 app.UseSwagger();
-                app.UseSwaggerUI();
+                app.UseSwaggerUI(options =>
+                {
+                    options.SwaggerEndpoint("/swagger/backend/swagger.json", "Backend API");
+                    options.SwaggerEndpoint("/swagger/frontend/swagger.json", "Frontend API");
+                    options.SwaggerEndpoint("/swagger/public/swagger.json", "Public API");
+
+                    // 可选：设置默认打开的页面
+                    options.RoutePrefix = "swagger"; // 访问 /swagger 打开 UI
+                });
             }
             // ✅ 全局处理 OPTIONS 请求
-            app.MapMethods("/api/admin/auth/login", new[] { "OPTIONS" }, () => Results.Ok());
+            //app.MapMethods("/api/admin/auth/login", new[] { "OPTIONS" }, () => Results.Ok());
 
             // 或者更通用的方式：为所有 API 路由支持 OPTIONS
             app.Use((context, next) =>
@@ -219,8 +244,6 @@ namespace Cssao.Api.Cssao.api
             }
 
             app.Run();
-
-
         }
     }
 }
