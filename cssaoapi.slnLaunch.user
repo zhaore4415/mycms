@@ -1,6 +1,6 @@
 [
   {
-    "Name": "新建配置文件",
+    "Name": "多项目同时启动",
     "Projects": [
       {
         "Path": "src\\Cssao.Api\\Cssao.Api.csproj",

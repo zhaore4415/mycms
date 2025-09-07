@@ -1,22 +1,22 @@
-﻿using Cssao.Domain.Entities;
+﻿using Cssao.Domain.Services;
+using Cssao.Domain.Entities;
+using Cssao.Domain.Interfaces;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Storage;
-using Microsoft.Extensions.Configuration;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using Microsoft.EntityFrameworkCore.ChangeTracking;
 
 namespace Cssao.Infrastructure.Data
 {
-    // Infrastructure/Data/NewsDbContext.cs
+    /// <summary>
+    /// Infrastructure/Data/NewsDbContext.cs
+    /// 应用程序数据库上下文，负责数据访问和审计逻辑。
+    /// </summary>
     public class AppDbContext : DbContext
     {
-        public AppDbContext(DbContextOptions<AppDbContext> options)
+        private readonly ICurrentUserService _currentUserService;
+        public AppDbContext(DbContextOptions<AppDbContext> options, ICurrentUserService currentUserService)
             : base(options)
         {
+            _currentUserService = currentUserService;
         }
 
         public DbSet<BlacklistedToken> BlacklistedTokens { get; set; }
@@ -35,12 +35,14 @@ namespace Cssao.Infrastructure.Data
         //dotnet ef migrations add CreateBlacklistedTokenTable --project ../Cssao.Infrastructure/Cssao.Infrastructure.csproj --startup-project ./Cssao.Api.csproj --output-dir Migrations
 
         //# 3. 更新数据库
-        //dotnet ef database update --project ../Cssao.Infrastructure/Cssao.Infrastructure.csproj --startup-project./Cssao.Api.csproj
+        //dotnet ef database update --project ../Cssao.Infrastructure/Cssao.Infrastructure.csproj --startup-project ./Cssao.Api.csproj
         #endregion
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            //// 配置实体关系或约束
-            //modelBuilder.Entity<News>().HasKey(n => n.Id);
+
+            // 全局过滤：自动排除已软删除的新闻
+            modelBuilder.Entity<News>()
+                .HasQueryFilter(n => !n.IsDeleted);
 
             // 配置实体关系和约束
             modelBuilder.Entity<News>(entity =>
@@ -54,7 +56,53 @@ namespace Cssao.Infrastructure.Data
                     .OnDelete(DeleteBehavior.ClientSetNull)
                     .HasConstraintName("FK_News_Category");
             });
+
+            // 其他配置...
+            base.OnModelCreating(modelBuilder);
+
+        }
+
+        public override async Task<int> SaveChangesAsync(CancellationToken cancellationToken = default)
+        {
+            var currentUser = _currentUserService.IsAuthenticated
+            ? _currentUserService.UserName
+            : "system";
+
+            // 处理新增和修改的审计字段
+            foreach (var entry in ChangeTracker.Entries<IAuditable>())
+            {
+                switch (entry.State)
+                {
+                    case EntityState.Added:
+                        entry.Entity.CreatedAt = DateTime.UtcNow;
+                        if (entry.Entity is ICreatedBy createdBy)
+                            createdBy.CreatedBy = currentUser;
+                        break;
+
+                    case EntityState.Modified:
+                        entry.Entity.UpdatedAt = DateTime.UtcNow;
+                        if (entry.Entity is IUpdatedBy updatedBy)
+                            updatedBy.UpdatedBy = currentUser;
+                        break;
+                }
+            }
+
+            // 处理软删除（标记为已删除）
+            foreach (var entry in ChangeTracker.Entries<ISoftDelete>())
+            {
+                if (entry.State == EntityState.Deleted)
+                {
+                    entry.State = EntityState.Modified; // 拦截删除操作
+                    entry.Entity.IsDeleted = true;
+                    entry.Entity.DeletedAt = DateTime.UtcNow;
+
+                    // 如果实体支持更新人，则记录
+                    if (entry.Entity is IUpdatedBy updatedBy)
+                        updatedBy.UpdatedBy = currentUser;
+                }
+            }
+
+            return await base.SaveChangesAsync(cancellationToken);
         }
     }
-
 }

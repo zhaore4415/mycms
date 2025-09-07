@@ -8,7 +8,6 @@
 
   <ItemGroup>
     <Compile Remove="Interfaces\INewsService.cs" />
-    <Compile Remove="Services\NewsService.cs" />
   </ItemGroup>
 
   <ItemGroup>
@@ -16,12 +15,12 @@
     <ProjectReference Include="..\Cssao.Shared\Cssao.Shared.csproj" />
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="AutoMapper.Extensions.Microsoft.DependencyInjection" Version="12.0.1" />
     <PackageReference Include="MediatR" Version="12.1.1" />
     <PackageReference Include="FluentValidation" Version="11.6.0" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.Core" Version="2.3.0" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Interfaces\" />
-    <Folder Include="Services\" />
   </ItemGroup>
 </Project>

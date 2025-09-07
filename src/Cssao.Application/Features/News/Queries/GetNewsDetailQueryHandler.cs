@@ -2,6 +2,7 @@
 using MediatR;
 using Cssao.Domain.IRepositories;
 using Cssao.Application.DTOs;
+using AutoMapper;
 
 namespace Cssao.Application.Features.News.Queries
 {
@@ -9,10 +10,12 @@ namespace Cssao.Application.Features.News.Queries
         IRequestHandler<GetNewsDetailQuery, NewsDetailDto?>
     {
         private readonly INewsRepository _newsRepository;
+        private readonly IMapper _mapper;
 
-        public GetNewsDetailQueryHandler(INewsRepository newsRepository)
+        public GetNewsDetailQueryHandler(INewsRepository newsRepository, IMapper mapper)
         {
             _newsRepository = newsRepository;
+            _mapper = mapper;
         }
 
         public async Task<NewsDetailDto?> Handle(
@@ -24,21 +27,9 @@ namespace Cssao.Application.Features.News.Queries
             var news = await _newsRepository.GetByIdWithCommentsAsync(request.Id, cancellationToken);
             if (news == null) return null;
 
-            return new NewsDetailDto
-            {
-                Id = news.Id,
-                Title = news.Title,
-                Summary = news.Summary,
-                Content = news.Content,
-                CoverImage = news.CoverImage,
-                IsFeatured = news.IsFeatured,
-                PublishDate = news.PublishDate,
-                Category = new CategoryDto
-                {
-                    Id = news.Category.Id,
-                    Name = news.Category.Name
-                }
-            };
+            var newsDto = _mapper.Map<Cssao.Domain.Entities.News, NewsDetailDto>(news);
+
+            return newsDto;
         }
     }
 }

@@ -12,7 +12,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Cssao.Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20250901142134_CreateBlacklistedTokenTable")]
+    [Migration("20250907091039_CreateBlacklistedTokenTable")]
     partial class CreateBlacklistedTokenTable
     {
         /// <inheritdoc />
@@ -115,9 +115,21 @@ namespace Cssao.Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.Property<string>("CoverImage")
-                        .IsRequired()
                         .HasMaxLength(300)
                         .HasColumnType("varchar(300)");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("CreatedBy")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<DateTime?>("DeletedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("tinyint(1)");
 
                     b.Property<bool>("IsFeatured")
                         .HasColumnType("tinyint(1)");
@@ -126,7 +138,6 @@ namespace Cssao.Infrastructure.Migrations
                         .HasColumnType("datetime(6)");
 
                     b.Property<string>("Summary")
-                        .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("varchar(500)");
 
@@ -134,6 +145,12 @@ namespace Cssao.Infrastructure.Migrations
                         .IsRequired()
                         .HasMaxLength(200)
                         .HasColumnType("varchar(200)");
+
+                    b.Property<DateTime?>("UpdatedAt")
+                        .HasColumnType("datetime(6)");
+
+                    b.Property<string>("UpdatedBy")
+                        .HasColumnType("longtext");
 
                     b.HasKey("Id");
 
