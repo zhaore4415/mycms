@@ -1,0 +1,116 @@
+﻿@page "/news/edit"
+@page "/news/edit/{Id:int}"
+@using Cssao.Admin.Client.Services
+@using Cssao.Shared.Models.Admin
+@inject NewsService NewsService
+@inject NavigationManager Navigation
+@inject IJSRuntime JSRuntime
+
+<h3>@(Id == 0 ? "新增新闻" : "编辑新闻")</h3>
+
+<EditForm Model="command" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+
+    <div class="mb-3">
+        <label>标题</label>
+        <InputText @bind-Value="command.Title" class="form-control" />
+    </div>
+
+   @*  <div class="mb-3">
+        <label>分类</label>
+        <InputText @bind-Value="command.Category" class="form-control" />
+    </div> *@
+    <div class="mb-3">
+        <label for="category">分类</label>
+        <select @bind="command.CategoryId" class="form-control" id="category">
+            <option value="0">请选择分类</option>
+            @foreach (var cat in categories)
+            {
+                <option value="@cat.Id">@cat.Name</option>
+            }
+        </select>
+    </div>
+
+    <div class="mb-3">
+        <label>内容</label>
+        <InputTextArea @bind-Value="command.Content" class="form-control" rows="10" />
+    </div>
+
+    <div class="mb-3">
+        <button type="submit" class="btn btn-success me-2">保存</button>
+        <button type="button" class="btn btn-secondary" @onclick="Cancel">取消</button>
+    </div>
+</EditForm>
+
+@code {
+    [Parameter] public int Id { get; set; }
+
+    private CreateNewsRequest command = new();
+    private List<CategoryDto> categories = new();
+   
+
+    protected override async Task OnInitializedAsync()
+    {
+        if (Id != 0)
+        {
+            try
+            {
+                var news = await NewsService.GetNewsByIdAsync(Id);
+
+                // ✅ 修复：创建新的对象而不是修改现有对象的 init-only 属性
+                command = new CreateNewsRequest
+                    {
+                        Title = news.Title ?? string.Empty,
+                        Content = news.Content ?? string.Empty,
+                        CategoryId = news.Category.Id 
+
+                    };
+            }
+            catch
+            {
+                await JSRuntime.InvokeVoidAsync("alert", "加载新闻失败");
+                Navigation.NavigateTo("/news");
+            }
+        }
+        // 从 API 加载分类
+        categories = await NewsService.GetNewsCategoriesAsync();
+    }
+
+    private async Task HandleValidSubmit()
+    {
+        bool success;
+        if (Id == 0)
+        {
+            success = await NewsService.CreateNewsAsync(command);
+        }
+        else
+        {
+            // ✅ 修复：正确创建 UpdateNewsRequest 对象
+            var updateCommand = new UpdateNewsRequest
+                {
+                    Id = Id,
+                    Title = command.Title,
+                    Content = command.Content,
+                    CategoryId = command.CategoryId
+
+                };
+            success = await NewsService.UpdateNewsAsync(Id, updateCommand);
+        }
+
+        if (success)
+        {
+            await JSRuntime.InvokeVoidAsync("alert", "保存成功");
+            Navigation.NavigateTo("/news");
+        }
+        else
+        {
+            await JSRuntime.InvokeVoidAsync("alert", "保存失败");
+        }
+    }
+
+    private void Cancel()
+    {
+        Navigation.NavigateTo("/news");
+    }
+}

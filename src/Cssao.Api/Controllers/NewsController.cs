@@ -58,5 +58,25 @@ namespace Cssao.api.Controllers
             var result = await _mediator.Send(query);
             return Ok(result);
         }
+
+        /// <summary>
+        /// 获取所有新闻分页列表（不分分类）
+        /// </summary>
+        [HttpGet] // 匹配 GET /api/admin/news
+        [ProducesResponseType(typeof(PagedResultDto<NewsListDto>), 200)]
+        public async Task<ActionResult<PagedResultDto<NewsListDto>>> GetAllNews(
+            [FromQuery] int pageIndex = 1,
+            [FromQuery] int pageSize = 10)
+        {
+            var query = new GetNewsListQuery
+            {
+                PageIndex = pageIndex,
+                PageSize = pageSize
+                // CategoryId = null，表示不限分类
+            };
+
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
     }
 }

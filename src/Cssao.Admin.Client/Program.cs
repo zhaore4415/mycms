@@ -34,6 +34,8 @@ builder.Services.AddHttpClient("api-client", client =>
 builder.Services.AddScoped(sp => sp.GetRequiredService<IHttpClientFactory>().CreateClient("api-client"));
 
 builder.Services.AddScoped<AuthService>();
+// 新闻管理
+builder.Services.AddScoped<NewsService>();
 
 // ✅ 5. 正确注册 PersistentAuthenticationStateProvider（使用工厂）
 builder.Services.AddScoped<PersistentAuthenticationStateProvider>();
@@ -47,5 +49,7 @@ builder.Services.AddScoped<IAccessTokenProvider>(sp =>
     var jsRuntime = sp.GetRequiredService<IJSRuntime>();
     return new AccessTokenProviderImpl(authStateProvider, jsRuntime);
 });
+
+
 
 await builder.Build().RunAsync();

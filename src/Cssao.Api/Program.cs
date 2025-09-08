@@ -13,6 +13,9 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
 using Microsoft.OpenApi.Models;
+using Cssao.Domain;
+using Cssao.Infrastructure;
+using Cssao.Application.Features.News.Commands;
 
 namespace Cssao.Api.Cssao.api
 {
@@ -81,9 +84,15 @@ namespace Cssao.Api.Cssao.api
                     }
                 });
             });
+            // ✅ 注册 IUnitOfWork 的实现
+            builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+
             // Program.cs (.NET 6+)
             builder.Services.AddMediatR(cfg =>
                 cfg.RegisterServicesFromAssembly(typeof(GetNewsDetailQuery).Assembly));
+
+            builder.Services.AddMediatR(cfg =>
+                cfg.RegisterServicesFromAssembly(typeof(DeleteNewsCommandHandler).Assembly));
 
             // 🔹 2. 添加 AutoMapper
             builder.Services.AddAutoMapper(

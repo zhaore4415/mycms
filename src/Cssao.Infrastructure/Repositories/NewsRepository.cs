@@ -86,7 +86,7 @@ namespace Cssao.Infrastructure.Repositories
         /// <summary>
         /// 根据ID获取新闻（不带导航属性，轻量）
         /// </summary>
-        public async Task<News?> GetByIdAsync(int id)
+        public async Task<News?> GetByIdAsync(int id, CancellationToken ct)
         {
             return await _context.News.FindAsync(id);
         }
@@ -114,6 +114,17 @@ namespace Cssao.Infrastructure.Repositories
                 .OrderByDescending(n => n.PublishDate);
             //return default;
             return await query.ToPagedListAsync(pageIndex, pageSize);
+        }
+
+
+        /// <summary>
+        /// 获取所有新闻分类
+        /// </summary>
+        public async Task<List<Category>> GetCategoriesAsync(CancellationToken ct)
+        {
+            var query = _context.Categories
+                .OrderByDescending(n => n.Id);
+            return await query.ToListAsync(ct);
         }
     }
 }
