@@ -1,11 +1,12 @@
 ﻿using Cssao.Application.DTOs;
 using Cssao.Domain.IRepositories;
+using Cssao.Shared.Models.Admin;
 using MediatR;
 using X.PagedList;
 
 namespace Cssao.Application.Features.News.Queries
 {
-    public class GetNewsListQueryHandler : IRequestHandler<GetNewsListQuery, PagedResultDto<NewsListDto>>
+    public class GetNewsListQueryHandler : IRequestHandler<GetNewsListQuery, PagedResultDto<NewsDto>>
     {
         private readonly INewsRepository _newsRepository;
 
@@ -14,24 +15,22 @@ namespace Cssao.Application.Features.News.Queries
             _newsRepository = newsRepository;
         }
 
-        public async Task<PagedResultDto<NewsListDto>> Handle(GetNewsListQuery request, CancellationToken ct)
+        public async Task<PagedResultDto<NewsDto>> Handle(GetNewsListQuery request, CancellationToken ct)
         {
             IPagedList<Cssao.Domain.Entities.News> pagedList;
             if (request.CategoryId <= 0)
             {
                 pagedList = await _newsRepository.GetAllAsync(request.PageIndex,
                 request.PageSize);
-              var  dtos = pagedList.Select(news => new NewsListDto
-                {
+              var  dtos = pagedList.Select(news => new NewsDto
+              {
                     Id = news.Id,
                     Title = news.Title,
-                    Summary = news.Summary,
                     CoverImage = news.CoverImage,
-                    IsFeatured = news.IsFeatured,
                     PublishDate = news.PublishDate
 
                 }).ToList();
-                return new PagedResultDto<NewsListDto>
+                return new PagedResultDto<NewsDto>
                 {
                     PageIndex = request.PageIndex,
                     PageSize = request.PageSize,
@@ -46,13 +45,11 @@ namespace Cssao.Application.Features.News.Queries
                    request.PageIndex,
                    request.PageSize,
                    ct);
-                var dtos = pagedList.Select(news => new NewsListDto
+                var dtos = pagedList.Select(news => new NewsDto
                 {
                     Id = news.Id,
                     Title = news.Title,
-                    Summary = news.Summary,
                     CoverImage = news.CoverImage,
-                    IsFeatured = news.IsFeatured,
                     PublishDate = news.PublishDate,
                     Category = new CategoryDto
                     {
@@ -60,7 +57,7 @@ namespace Cssao.Application.Features.News.Queries
                         Name = news.Category.Name
                     }
                 }).ToList();
-                return new PagedResultDto<NewsListDto>
+                return new PagedResultDto<NewsDto>
                 {
                     PageIndex = request.PageIndex,
                     PageSize = request.PageSize,

@@ -6,7 +6,6 @@ using Cssao.Shared.Models.Admin;
 using MediatR;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using CategoryDto = Cssao.Application.DTOs.CategoryDto;
 
 namespace Cssao.api.Controllers
 {
@@ -29,8 +28,27 @@ namespace Cssao.api.Controllers
         [HttpPost("publish")]  // ✅ 明确子路由
         public async Task<ActionResult<int>> PublishNews([FromBody] CreateNewsCommand command)
         {
+           
             var newsId = await _mediator.Send(command);
             return CreatedAtAction("GetNewsDetail", new { id = newsId }, newsId);
+        }
+
+        /// <summary>
+        /// 获取新闻详情
+        /// </summary>
+        [HttpGet("{id}")]
+        public async Task<ActionResult<NewsDto>> GetNewsDetail(int id)
+        {
+            if (id <= 0)
+                return BadRequest("无效的新闻ID");
+
+            var query = new GetNewsDetailQuery { Id = id };
+            var result = await _mediator.Send(query);
+
+            if (result == null)
+                return NotFound($"未找到ID为 {id} 的新闻");
+
+            return Ok(result);
         }
 
         /// <summary>
@@ -107,6 +125,50 @@ namespace Cssao.api.Controllers
         {
             var categories = await _mediator.Send(new GetAllCategoriesQuery(), ct);
             return Ok(categories);
+        }
+
+
+        /// <summary>
+        /// 按分类获取新闻分页列表
+        /// </summary>
+        [HttpGet("category/{categoryId}")]
+        public async Task<ActionResult<PagedResultDto<NewsListDto>>> GetByCategory(
+            int categoryId,
+            [FromQuery] int pageIndex = 1,
+            [FromQuery] int pageSize = 10)
+        {
+            if (categoryId <= 0)
+                return BadRequest("无效的分类ID");
+
+            var query = new GetNewsListQuery
+            {
+                CategoryId = categoryId,
+                PageIndex = pageIndex,
+                PageSize = pageSize
+            };
+
+            var result = await _mediator.Send(query);
+            return Ok(result);
+        }
+
+        /// <summary>
+        /// 获取所有新闻分页列表（不分分类）
+        /// </summary>
+        [HttpGet] // 匹配 GET /api/admin/news
+        [ProducesResponseType(typeof(PagedResultDto<NewsDto>), 200)]
+        public async Task<ActionResult<PagedResultDto<NewsDto>>> GetAllNews(
+            [FromQuery] int pageIndex = 1,
+            [FromQuery] int pageSize = 10)
+        {
+            var query = new GetNewsListQuery
+            {
+                PageIndex = pageIndex,
+                PageSize = pageSize
+                // CategoryId = null，表示不限分类
+            };
+
+            var result = await _mediator.Send(query);
+            return Ok(result);
         }
 
     }

@@ -1,6 +1,7 @@
 ﻿using Cssao.Application.DTOs;
 using Cssao.Application.Features.News.Commands;
 using Cssao.Application.Features.News.Queries;
+using Cssao.Shared.Models.Admin;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
 
@@ -18,23 +19,23 @@ namespace Cssao.api.Controllers
             _mediator = mediator;
         }
 
-        /// <summary>
-        /// 获取新闻详情
-        /// </summary>
-        [HttpGet("{id}")]
-        public async Task<ActionResult<NewsDetailDto>> GetNewsDetail(int id)
-        {
-            if (id <= 0)
-                return BadRequest("无效的新闻ID");
+        ///// <summary>
+        ///// 获取新闻详情
+        ///// </summary>
+        //[HttpGet("{id}")]
+        //public async Task<ActionResult<NewsDto>> GetNewsDetail(int id)
+        //{
+        //    if (id <= 0)
+        //        return BadRequest("无效的新闻ID");
 
-            var query = new GetNewsDetailQuery { Id = id };
-            var result = await _mediator.Send(query);
+        //    var query = new GetNewsDetailQuery { Id = id };
+        //    var result = await _mediator.Send(query);
 
-            if (result == null)
-                return NotFound($"未找到ID为 {id} 的新闻");
+        //    if (result == null)
+        //        return NotFound($"未找到ID为 {id} 的新闻");
 
-            return Ok(result);
-        }
+        //    return Ok(result);
+        //}
 
         /// <summary>
         /// 按分类获取新闻分页列表

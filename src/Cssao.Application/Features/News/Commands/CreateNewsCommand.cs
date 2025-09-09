@@ -9,7 +9,7 @@ namespace Cssao.Application.Features.News.Commands
         public string Content { get; init; } = default!;
         public string? CoverImage { get; init; }
         public bool IsFeatured { get; init; }
-        public DateTime? PublishDate { get; init; }
+        public DateTime? PublishDate { get; init; } = DateTime.Now;
         public int CategoryId { get; init; }
     }
     // UpdateNewsCommand.cs

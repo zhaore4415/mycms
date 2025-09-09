@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Cssao.Application.DTOs
+namespace Cssao.Shared.Models.Admin
 {
     public class PagedResultDto<T>
     {

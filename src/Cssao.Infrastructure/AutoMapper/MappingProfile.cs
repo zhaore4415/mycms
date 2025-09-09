@@ -2,7 +2,8 @@
 using Cssao.Application.DTOs;
 using Cssao.Application.Features.News.Commands;
 using Cssao.Domain.Entities;
-using Cssao.Infrastructure.AutoMapper; // 🔹 显式引入扩展方法命名空间！
+using Cssao.Infrastructure.AutoMapper;
+using Cssao.Shared.Models.Admin; // 🔹 显式引入扩展方法命名空间！
 
 namespace Cssao.Infrastructure.AutoMapper
 {
@@ -22,7 +23,7 @@ namespace Cssao.Infrastructure.AutoMapper
                 .ForMember(dest => dest.Id, opt => opt.Ignore()); // 如果需要，单独忽略 Id
 
             CreateMap<Category, CategoryDto>(); // 如果需要，单独忽略 Id
-            CreateMap<News, NewsDetailDto>(); // 如果需要，单独忽略 Id
+            CreateMap<News, NewsDto>(); // 如果需要，单独忽略 Id
 
          
             //CreateMap<UpdateNewsCommand, News>()

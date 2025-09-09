@@ -11,8 +11,13 @@ namespace Cssao.Shared.Models.Admin
     {
         public int Id { get; set; }
         public string Title { get; set; } = string.Empty;
+
+        public string? CoverImage { get; set; }
+
         public string Content { get; set; } = string.Empty;
         public CategoryDto? Category { get; set; } = null!;
+
+        public DateTime PublishDate { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
     }

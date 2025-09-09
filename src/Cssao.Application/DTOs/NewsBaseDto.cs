@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Cssao.Shared.Models.Admin;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,22 +26,12 @@ namespace Cssao.Application.DTOs
         public int ViewCount { get; set; }
     }
 
-    // 详情用
-    public class NewsDetailDto : NewsBaseDto
-    {
-        public string Content { get; set; } = string.Empty; // 仅详情需要
-        public List<CommentDto> Comments { get; set; } = new();
-        public AuthorDto? Author { get; set; }
-    }
+    //// 详情用
+    //public class NewsDetailDto : NewsBaseDto
+    //{
+    //    public string Content { get; set; } = string.Empty; // 仅详情需要
+      
+    //    public AuthorDto? Author { get; set; }
+    //}
 
-    public class CategoryDto
-    {
-        public int Id { get; set; }
-        public string Name { get; set; } = string.Empty;
-        // 不包含 News 集合！避免循环
-    }
-
-    public class CommentDto
-    {
-    }
 }
