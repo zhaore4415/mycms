@@ -111,7 +111,7 @@ namespace Cssao.Infrastructure.Repositories
         {
             var query = _context.News
                 .Include(n => n.Category)
-                .OrderByDescending(n => n.PublishDate);
+                .OrderByDescending(n => n.UpdatedAt);
             //return default;
             return await query.ToPagedListAsync(pageIndex, pageSize);
         }

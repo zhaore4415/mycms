@@ -25,11 +25,11 @@ namespace Cssao.Infrastructure.AutoMapper
             CreateMap<Category, CategoryDto>(); // 如果需要，单独忽略 Id
             CreateMap<News, NewsDto>(); // 如果需要，单独忽略 Id
 
-         
-            //CreateMap<UpdateNewsCommand, News>()
-            //    .ForMember(dest => dest.Id, opt => opt.Ignore()) // Id 通常也不应由前端修改
-            //    .ForMember(dest => dest.CreatedAt, opt => opt.Ignore()) // 防止篡改
-            //    .ForMember(dest => dest.CreatedBy, opt => opt.Ignore());
+            CreateMap<UpdateNewsCommand, News>()
+                .ForMember(dest => dest.Id, opt => opt.Ignore()) // Id 通常也不应由前端修改
+                .ForMember(dest => dest.CreatedAt, opt => opt.Ignore()) // 防止篡改
+                .ForMember(dest => dest.PublishDate, opt => opt.Ignore()) // 由系统自动设置
+                .ForMember(dest => dest.CreatedBy, opt => opt.Ignore());
         }
     }
 }

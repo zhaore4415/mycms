@@ -22,12 +22,18 @@ namespace Cssao.Application.Features.News.Queries
             {
                 pagedList = await _newsRepository.GetAllAsync(request.PageIndex,
                 request.PageSize);
-              var  dtos = pagedList.Select(news => new NewsDto
-              {
+                var dtos = pagedList.Select(news => new NewsDto
+                {
                     Id = news.Id,
                     Title = news.Title,
                     CoverImage = news.CoverImage,
-                    PublishDate = news.PublishDate
+                    PublishDate = news.PublishDate,
+                    UpdatedAt = news.UpdatedAt,
+                    Category = new CategoryDto
+                    {
+                        Id = news.Category.Id,
+                        Name = news.Category.Name
+                    }
 
                 }).ToList();
                 return new PagedResultDto<NewsDto>
@@ -51,6 +57,7 @@ namespace Cssao.Application.Features.News.Queries
                     Title = news.Title,
                     CoverImage = news.CoverImage,
                     PublishDate = news.PublishDate,
+                    UpdatedAt = news.UpdatedAt,
                     Category = new CategoryDto
                     {
                         Id = news.Category.Id,
