@@ -5,6 +5,7 @@ using Cssao.Admin.Client.Services;
 using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.JSInterop;
+using MudBlazor.Services;
 
 var builder = WebAssemblyHostBuilder.CreateDefault(args);
 builder.RootComponents.Add<App>("#app");
@@ -50,6 +51,6 @@ builder.Services.AddScoped<IAccessTokenProvider>(sp =>
     return new AccessTokenProviderImpl(authStateProvider, jsRuntime);
 });
 
-
+builder.Services.AddMudServices(); // 添加这行
 
 await builder.Build().RunAsync();
