@@ -1,9 +1,12 @@
 ﻿@page "/news"
 @using Cssao.Admin.Client.Services
 @using Cssao.Shared.Models.Admin
+@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize]
 @inject NewsService NewsService
 @inject NavigationManager Navigation
 @inject IJSRuntime JSRuntime
+
 
 <h3>新闻管理</h3>
 
